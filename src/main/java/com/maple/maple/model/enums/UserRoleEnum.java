@@ -1,5 +1,6 @@
 package com.maple.maple.model.enums;
 
+import cn.hutool.core.util.ObjUtil;
 import lombok.Getter;
 
 /**
@@ -14,5 +15,21 @@ public enum UserRoleEnum {
     UserRoleEnum(String text, String value) {
         this.text=text;
         this.value=value;
+    }
+    /**
+     * 根据值获取枚举
+     * @param value
+     * @return
+     */
+    public static UserRoleEnum getEnumByValue(String value) {
+        if(ObjUtil.isEmpty(value)) {
+            return null;
+        }
+        for(UserRoleEnum userRoleEnum : UserRoleEnum.values()) {
+            if(userRoleEnum.value.equals(value)) {
+                return userRoleEnum;
+            }
+        }
+        return null;
     }
 }
