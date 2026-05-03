@@ -13,7 +13,7 @@ public class MainController {
      * 健康检查
      * @return
      */
-    @GetMapping
+    @GetMapping("/health")
     public BaseResponse<String> health() {
         return ResultUtils.success("ok");
     }
