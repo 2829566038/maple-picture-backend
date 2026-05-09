@@ -12,6 +12,8 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+  profiles:
+   active: local
 mybatis-plus:
   configuration:
     # MyBatis 配置
@@ -34,3 +36,13 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.maple.maple.controller
+
+##对象存储配置
+#cos:
+#  client:
+#    host: XXX
+#    secretId: XXX
+#    secretKey: XXX
+#    region: XXX
+#    bucket: XXX
+

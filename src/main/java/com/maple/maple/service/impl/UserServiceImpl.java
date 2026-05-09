@@ -1,15 +1,19 @@
 package com.maple.maple.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.maple.maple.constant.UserConstant;
 import com.maple.maple.exception.BusinessException;
 import com.maple.maple.exception.ErrorCode;
+import com.maple.maple.model.dto.user.UserQueryRequest;
 import com.maple.maple.model.entity.User;
 import com.maple.maple.model.enums.UserRoleEnum;
 import com.maple.maple.model.vo.LoginUserVO;
+import com.maple.maple.model.vo.UserVO;
 import com.maple.maple.service.UserService;
 import com.maple.maple.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +21,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+//import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
+ * 用户服务实现
  * @author A
- * @description 针对表【user(用户)】的数据库操作Service实现
- * @createDate 2026-04-30 20:12:39
+ * @author A
  */
 @Service
 @Slf4j
@@ -139,6 +147,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
+    public UserVO getUserVO(User user) {
+        if (user == null) {
+            return null;
+        }
+        UserVO userVO = new UserVO();
+        BeanUtil.copyProperties(user, userVO);
+        return userVO;
+    }
+
+    /**
+     * 获得脱敏后的用户VO列表
+     *
+     * @param userList 用户实体列表
+     * @return 脱敏后的用户VO列表
+     */
+    @Override
+    public List<UserVO> getUserVOList(List<User> userList) {
+        if (CollUtil.isEmpty(userList)) {
+            return new ArrayList<>();
+        }
+        return userList.stream().map(this::getUserVO).collect(Collectors.toList());
+    }
+
+    @Override
     public boolean userLogout(HttpServletRequest request) {
         //判断是否登录
         Object userObj=request.getSession().getAttribute(UserConstant.USER_LOGIN_STATE);
@@ -148,5 +180,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         //注销登录状态
         request.getSession().removeAttribute(UserConstant.USER_LOGIN_STATE);
         return true;
+    }
+
+    @Override
+    public QueryWrapper<User> getQueryWrapper(UserQueryRequest userQueryRequest) {
+        if (userQueryRequest == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "请求参数为空");
+        }
+        Long id = userQueryRequest.getId();
+        String userName = userQueryRequest.getUserName();
+        String userAccount = userQueryRequest.getUserAccount();
+        String userProfile = userQueryRequest.getUserProfile();
+        String userRole = userQueryRequest.getUserRole();
+        String sortField = userQueryRequest.getSortField();
+        String sortOrder = userQueryRequest.getSortOrder();
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(ObjUtil.isNotNull(id), "id", id);
+        queryWrapper.like(ObjUtil.isNotNull(userName), "userName", userName);
+        queryWrapper.like(ObjUtil.isNotNull(userAccount), "userAccount", userAccount);
+        queryWrapper.like(ObjUtil.isNotNull(userProfile), "userProfile", userProfile);
+        queryWrapper.eq(ObjUtil.isNotNull(userRole), "userRole", userRole);
+        queryWrapper.orderBy(StrUtil.isNotEmpty(sortField), sortOrder.equals("ascend"), sortField);
+        return queryWrapper;
     }
 }

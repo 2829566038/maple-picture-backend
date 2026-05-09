@@ -1,10 +1,14 @@
 package com.maple.maple.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.maple.maple.model.dto.user.UserQueryRequest;
 import com.maple.maple.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.maple.maple.model.vo.LoginUserVO;
+import com.maple.maple.model.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
 * @author A
@@ -48,9 +52,33 @@ public interface UserService extends IService<User> {
     LoginUserVO getLoginUserVO(User user);
 
     /**
+     * 获得脱敏后的用户VO
+     *
+     * @param user
+     * @return
+     */
+    UserVO getUserVO(User user);
+
+    /**
+     * 获得脱敏后的用户VO列表
+     *
+     * @param userList
+     * @return
+     */
+    List<UserVO> getUserVOList(List<User> userList);
+
+    /**
      * 用户注销
      * @param request
      * @return
      */
     boolean userLogout(HttpServletRequest request);
+
+    /**
+     * 获得查询用户列表的条件
+     *
+     * @param userQueryRequest
+     * @return 查询用户列表的条件
+     */
+    QueryWrapper<User> getQueryWrapper(UserQueryRequest userQueryRequest);
 }

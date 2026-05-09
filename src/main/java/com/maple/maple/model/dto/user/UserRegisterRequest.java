@@ -1,4 +1,4 @@
-package com.maple.maple.model.dto;
+package com.maple.maple.model.dto.user;
 
 import lombok.Data;
 
