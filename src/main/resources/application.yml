@@ -5,6 +5,14 @@ server:
 
 # 数据库配置
 spring:
+  servlet:
+    multipart:
+      # 更改单个文件最大大小
+      max-file-size: 10MB
+      # 总请求大小
+      max-request-size: 10MB
+      # 启用 multipart 处理
+      enabled: true
   application:
     name: Maple
   datasource:

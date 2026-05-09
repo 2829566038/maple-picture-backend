@@ -9,5 +9,8 @@ import com.maple.maple.model.entity.Picture;
 * @createDate 2026-05-09 11:14:10
 */
 public interface PictureService extends IService<Picture> {
+    /**
+     * 上传图片
+     */
 
 }
