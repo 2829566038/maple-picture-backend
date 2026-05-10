@@ -11,25 +11,23 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
-* @author A
-* @description 针对表【user(用户)】的数据库操作Service
-* @createDate 2026-04-30 20:12:39
-*/
+ * 用户服务接口
+ */
 public interface UserService extends IService<User> {
     /**
-     *
-     * @param userAccount
-     * @param userPassword
-     * @param checkPassword
-     * @return
+     * 用户注册
+     * @param userAccount 账号
+     * @param userPassword 密码
+     * @param checkPassword 确认密码
+     * @return 用户id
      */
     long userRegister(String userAccount,String userPassword,String checkPassword);
 
     /**
      * 用户登录
-     * @param userAccount
-     * @param userPassword
-     * @param request
+     * @param userAccount 账号
+     * @param userPassword 密码
+     * @param request 请求对象
      * @return 获取登录信息VO
      */
     LoginUserVO userLogin(String userAccount, String userPassword, HttpServletRequest request);
@@ -38,46 +36,46 @@ public interface UserService extends IService<User> {
 
     /**
      * 获取登录用户
-     * @param request
-     * @return
+     * @param request 请求对象
+     * @return 用户
      */
     User getLoginUser(HttpServletRequest request);
 
 
     /**
      * 获得脱敏后的登录用户VO
-     * @param user
-     * @return
+     * @param user 用户
+     * @return 登录用户VO
      */
     LoginUserVO getLoginUserVO(User user);
 
     /**
      * 获得脱敏后的用户VO
      *
-     * @param user
-     * @return
+     * @param user 用户
+     * @return 用户VO
      */
     UserVO getUserVO(User user);
 
     /**
      * 获得脱敏后的用户VO列表
      *
-     * @param userList
-     * @return
+     * @param userList 用户列表
+     * @return 用户VO列表
      */
     List<UserVO> getUserVOList(List<User> userList);
 
     /**
      * 用户注销
-     * @param request
-     * @return
+     * @param request 请求对象
+     * @return 是否注销成功
      */
     boolean userLogout(HttpServletRequest request);
 
     /**
      * 获得查询用户列表的条件
      *
-     * @param userQueryRequest
+     * @param userQueryRequest 查询用户列表的请求
      * @return 查询用户列表的条件
      */
     QueryWrapper<User> getQueryWrapper(UserQueryRequest userQueryRequest);
