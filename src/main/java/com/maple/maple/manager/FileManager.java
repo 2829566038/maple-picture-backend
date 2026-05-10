@@ -56,7 +56,9 @@ public class FileManager {
             multipartFile.transferTo(file);
             PutObjectResult putObjectResult = cosManager.putObject(uploadPath, file);
             //获取图片信息
+
             ImageInfo imageInfo = putObjectResult.getCiUploadResult().getOriginalInfo().getImageInfo();
+
             //计算宽高
             int picWidth = imageInfo.getWidth();
             int picHeight = imageInfo.getHeight();
