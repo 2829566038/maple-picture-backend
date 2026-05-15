@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.maple.maple.model.dto.picture.PictureQueryRequest;
+import com.maple.maple.model.dto.picture.PictureReviewRequest;
 import com.maple.maple.model.dto.picture.PictureUploadRequest;
 import com.maple.maple.model.entity.Picture;
 import com.maple.maple.model.entity.User;
@@ -57,4 +58,14 @@ public interface PictureService extends IService<Picture> {
      * @return 图片查询包装类
      */
     QueryWrapper<Picture> getQueryWrapper(PictureQueryRequest pictureQueryRequest);
+
+    /**
+     * 图片审核
+     *
+     * @param pictureReviewRequest
+     * @param loginUser
+     */
+    void doPictureReview(PictureReviewRequest pictureReviewRequest, User loginUser);
+
+    void fillReviewParams(Picture picture, User loginUser);
 }
