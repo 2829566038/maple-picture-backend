@@ -101,11 +101,22 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
         picture.setUserId(loginUser.getId());
         // 补充审核参数
         this.fillReviewParams(picture, loginUser);
-        //操作数据库
-        //如果pictureId不为空表示更新，否则新增
+        //当前代码的编辑时间有问题，为保证快速回溯，这里做注释处理
+//        //操作数据库
+//        //如果pictureId不为空表示更新，否则新增
+//        if (pictureId != null) {
+//            picture.setId(pictureId);
+//            picture.setEditTime(new Date());
+//        }
+
+        Date now = new Date();
         if (pictureId != null) {
             picture.setId(pictureId);
-            picture.setEditTime(new Date());
+            picture.setEditTime(now);
+        } else {
+            // 新增时，创建时间和编辑时间都设置为当前时间
+            picture.setCreateTime(now);
+            picture.setEditTime(now);
         }
 
         boolean result = this.saveOrUpdate(picture);
