@@ -136,7 +136,6 @@ public class FileManager {
         //防止无法上传同名图片
         String uuid = RandomUtil.randomString(16);
 //        String originalFilename = uuid + multipartFile.getOriginalFilename();
-        //todo
         String originalFilename = FileUtil.mainName(fileUrl);
         //自己拼接文件上传路径，而不是用原始文件名称，可以防止文件名冲突
         String uploadFilename = String.format("%s_%s.%s", DateUtil.formatDate(new Date()), uuid, FileUtil.getSuffix(originalFilename));
@@ -145,7 +144,6 @@ public class FileManager {
         try {
             // 上传文件
             file = File.createTempFile(uploadPath, null);
-            //todo
             HttpUtil.downloadFile(fileUrl, file);
 //            multipartFile.transferTo(file);
             PutObjectResult putObjectResult = cosManager.putPictureObject(uploadPath, file);
