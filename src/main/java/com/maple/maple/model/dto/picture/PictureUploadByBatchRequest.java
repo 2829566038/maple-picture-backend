@@ -11,14 +11,19 @@ import java.io.Serializable;
 public class PictureUploadByBatchRequest implements Serializable {
 
     /**
-     * 图片名称（用于修改）
+     * 搜索词
      */
-    private String name;
+    private String searchText;
 
     /**
-     * 上传数量（默认10张）
+     * 抓取数量
      */
     private Integer count = 10;
+
+    /**
+     * 名称前缀
+     */
+    private String namePrefix;
 
     private static final long serialVersionUID = 1L;
 }
