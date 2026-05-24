@@ -351,6 +351,17 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture>
             pictureUploadRequest.setPicName(namePrefix + (uploadCount + 1));
             try {
                 PictureVO pictureVO = this.uploadPicture(fileUrl, pictureUploadRequest, loginUser);
+                // 管理员批量上传，直接设置审核通过
+                if (userService.isAdmin(loginUser)) {
+                    Picture picture = this.getById(pictureVO.getId());
+                    if (picture != null) {
+                        picture.setReviewStatus(PictureReviewStatusEnum.PASS.getValue());
+                        picture.setReviewerId(loginUser.getId());
+                        picture.setReviewMessage("管理员批量上传自动过审");
+                        picture.setReviewTime(new Date());
+                        this.updateById(picture);
+                    }
+                }
                 log.info("图片上传成功，id = {}", pictureVO.getId());
                 uploadCount++;
             } catch (Exception e) {

@@ -61,7 +61,6 @@ public class PictureController {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-
     /**
      * 上传图片（可重新上传）
      */
